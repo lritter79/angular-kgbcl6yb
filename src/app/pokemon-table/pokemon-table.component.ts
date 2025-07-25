@@ -1,12 +1,6 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { forkJoin, map, Observable } from "rxjs";
-import {
-  IPokemon,
-  PokemonListResponse,
-  SortProps,
-} from "../../types";
-import { AsyncPipe, NgFor } from "@angular/common";
+import { IPokemon, SortProps } from "../../types";
+import { NgFor } from "@angular/common";
 import { OrderByPipe } from "../order-by.pipe";
 import { FormsModule } from "@angular/forms";
 import { SortArrowComponent } from "./sort-arrow/sort-arrow.component";
