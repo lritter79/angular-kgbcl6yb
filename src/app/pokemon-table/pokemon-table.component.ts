@@ -9,6 +9,7 @@ import { PokemonService } from "../pokemon.service";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 
+
 @Component({
   selector: "pokemon-table",
   standalone: true,
@@ -37,9 +38,9 @@ export class PokemonTableComponent implements OnInit {
   constructor(private pokemonService: PokemonService) {}
 
   ngOnInit() {
-    // Subscribe to pageChange$ and wait 100ms after the last emission before calling loadPokemon
+    // Subscribe to pageChange$ and wait 200ms after the last emission before calling loadPokemon
     // This prevents rapid clicking from triggering too many API calls
-    this.pageChange$.pipe(debounceTime(100)).subscribe((offset) => {
+    this.pageChange$.pipe(debounceTime(200)).subscribe((offset) => {
       this.pageOffset = offset;
       this.loadPokemon();
     });
@@ -86,7 +87,7 @@ export class PokemonTableComponent implements OnInit {
 
   nextPage() {
     // Reset filters and emit the new offset
-    // loadPokemon will only be called 300ms after the last pageChange$.next()
+    // loadPokemon will only be called 200ms after the last pageChange$.next()
     this.resetFilters();
     this.pageChange$.next(this.pageOffset + 10);
   }
