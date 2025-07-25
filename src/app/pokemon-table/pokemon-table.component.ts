@@ -11,12 +11,12 @@ import { OrderByPipe } from "../order-by.pipe";
 import { FormsModule } from "@angular/forms";
 import { SortArrowComponent } from "./sort-arrow/sort-arrow.component";
 import { FilterPipe } from "../filter.pipe";
+import { PokemonService } from "../pokemon.service";
 @Component({
   selector: "pokemon-table",
   standalone: true,
   imports: [
     NgFor,
-    AsyncPipe,
     OrderByPipe,
     FormsModule,
     SortArrowComponent,
@@ -27,19 +27,19 @@ import { FilterPipe } from "../filter.pipe";
 })
 export class PokemonTableComponent implements OnInit {
   pageOffset = 0;
-  pokemonObservable$: Observable<IPokemon[]> = new Observable();
+  pokemonList: IPokemon[] = [];
   orderBy: "asc" | "desc" | null = null;
   orderByArr = ["", "asc", "desc"];
   sortBy: SortProps | null = null;
   sortByArr = ["", "base_experience", "name"];
   filterName: string | null = null;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private pokemonService: PokemonService) {}
 
   ngOnInit() {
     //load pokemon 1st page
     console.log("init");
 
-    this.loadPokemon(this.pageOffset);
+    this.loadPokemon();
   }
 
   updateFilter(target: EventTarget | null) {
@@ -48,6 +48,10 @@ export class PokemonTableComponent implements OnInit {
       const value = input.value;
       this.filterName = value;
     }
+  }
+
+  resetFilters() {
+    this.filterName = null;
   }
 
   updateSort(
@@ -63,22 +67,28 @@ export class PokemonTableComponent implements OnInit {
       this.orderBy = direction;
     }
   }
-  loadPokemon(offset: number = 0) {
-    this.httpClient
-      .get<PokemonListResponse>(
-        `https://pokeapi.co/api/v2/pokemon?limit=10&offset=${offset}`
-      )
-      .pipe(
-        // take the list of URLs and fetch each individual pokemon
-        map((listResponse: PokemonListResponse) => {
-          const requests = listResponse.results.map((pokemon) =>
-            this.httpClient.get<IPokemon>(pokemon.url)
-          );
-          return forkJoin(requests); // wait for all requests to complete
-        })
-      )
-      .subscribe((pokemonDetails) => {
-        this.pokemonObservable$ = pokemonDetails;
-      });
+  loadPokemon() {
+    this.pokemonService.getPokemon(this.pageOffset).subscribe({
+      next: (data) => {
+        this.pokemonList = data;
+      },
+      error: (err) => {
+        console.error("Failed to fetch pokemon:", err);
+      },
+    });
+  }
+
+  nextPage() {
+    this.pageOffset += 10;
+    this.resetFilters();
+    this.loadPokemon();
+  }
+
+  prevPage() {
+    if (this.pageOffset >= 10) {
+      this.pageOffset -= 10;
+      this.resetFilters();
+      this.loadPokemon();
+    }
   }
 }

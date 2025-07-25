@@ -1,3 +1,7 @@
+<div class="pagination-buttons">
+  <button (click)="prevPage()" [disabled]="pageOffset === 0">Previous</button>
+  <button (click)="nextPage()">Next</button>
+</div>
 <table class="pokemon-table">
   <thead>
     <tr>
@@ -20,7 +24,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let pokemon of pokemonObservable$ | async | filter: filterName | orderBy:orderBy:sortBy ">
+    <tr *ngFor="let pokemon of pokemonList | filter: filterName | orderBy:orderBy:sortBy ">
       <td>
         <img [src]="pokemon.sprites.front_default" alt="{{ pokemon.name }}" />
       </td>
