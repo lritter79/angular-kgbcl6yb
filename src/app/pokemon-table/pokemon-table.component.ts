@@ -54,6 +54,7 @@ export class PokemonTableComponent implements OnInit {
     field: SortProps | null,
     direction: "asc" | "desc" | null
   ) {
+    console.log(field);
     if (direction === null) {
       this.sortBy = null;
       this.orderBy = null;
