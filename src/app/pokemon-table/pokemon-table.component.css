@@ -16,6 +16,9 @@
 .pokemon-table th {
   background-color: #4CAF50;
   color: white;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
 }
 
 .pokemon-table img {

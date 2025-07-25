@@ -2,12 +2,22 @@
   <thead>
     <tr>
       <th>Image</th>
-      <th>Name</th>
-      <th>Base Experience</th>
+      <th>Name   
+        <app-sort-arrow
+            [sortState]="sortBy === 'name' ? orderBy : null"
+            (sortChange)="updateSort('name', $event)">
+        </app-sort-arrow>
+        </th>
+      <th>Base Experience
+                <app-sort-arrow
+            [sortState]="sortBy === 'base_experience' ? orderBy : null"
+            (sortChange)="updateSort('base_experience', $event)">
+        </app-sort-arrow>
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let pokemon of pokemonObservable$ | async">
+    <tr *ngFor="let pokemon of pokemonObservable$ | async | orderBy:orderBy:sortBy ">
       <td>
         <img [src]="pokemon.sprites.front_default" alt="{{ pokemon.name }}" />
       </td>

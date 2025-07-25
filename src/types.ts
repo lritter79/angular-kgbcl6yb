@@ -6,10 +6,12 @@ export type PokemonListResponse = {
 };
 
 export interface IPokemon {
-  base_experience: string;
+  base_experience: number;
   name: string;
   sprites: {
     //img url
     front_default: string;
   };
 }
+
+export type SortProps = keyof Omit<IPokemon, "sprites">;

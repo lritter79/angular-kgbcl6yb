@@ -1,0 +1,27 @@
+.sort-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: inline-block;
+  align-items: center;
+}
+
+.sort-arrow {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.4;
+}
+
+.sort-arrow.desc {
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+.sort-arrow.asc {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.sort-arrow.inactive {
+  opacity: 0.3;
+}

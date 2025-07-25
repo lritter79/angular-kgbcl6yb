@@ -1,44 +1,50 @@
 {
-  "hash": "0e017879",
-  "configHash": "f3961fd4",
+  "hash": "a02d647f",
+  "configHash": "a47f2eed",
   "lockfileHash": "17212935",
-  "browserHash": "b1327266",
+  "browserHash": "456ec410",
   "optimized": {
+    "@angular/common": {
+      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "4db8384e",
+      "needsInterop": false
+    },
     "@angular/common/http": {
       "src": "../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "248e05de",
+      "fileHash": "7bb6c1d1",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "2cde2832",
+      "fileHash": "166a4e95",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "b1367ce1",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "2c9cc378",
+      "fileHash": "1294e22d",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "e32f1d8c",
+      "fileHash": "ca17ead6",
       "needsInterop": false
     },
     "zone.js": {
       "src": "../../../../../node_modules/zone.js/fesm2015/zone.js",
       "file": "zone__js.js",
-      "fileHash": "9dec0ff8",
+      "fileHash": "f610827f",
       "needsInterop": true
-    },
-    "@angular/common": {
-      "src": "../../../../../node_modules/@angular/common/fesm2022/common.mjs",
-      "file": "@angular_common.js",
-      "fileHash": "0e28ea2a",
-      "needsInterop": false
     }
   },
   "chunks": {

@@ -1,32 +1,62 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { forkJoin, map, observable, Observable, of } from "rxjs";
-import { IPokemon, PokemonListResponse } from "../../types";
+import { forkJoin, map, Observable } from "rxjs";
+import {
+  IPokemon,
+  PokemonListResponse,
+  SortProps,
+} from "../../types";
 import { AsyncPipe, NgFor } from "@angular/common";
-
+import { OrderByPipe } from "../order-by.pipe";
+import { FormsModule } from "@angular/forms";
+import { SortArrowComponent } from "./sort-arrow/sort-arrow.component";
 @Component({
   selector: "pokemon-table",
   standalone: true,
-  imports: [NgFor, AsyncPipe],
+  imports: [
+    NgFor,
+    AsyncPipe,
+    OrderByPipe,
+    FormsModule,
+    SortArrowComponent,
+  ],
   templateUrl: "./pokemon-table.component.html",
   styleUrl: "./pokemon-table.component.css",
 })
 export class PokemonTableComponent implements OnInit {
   pageOffset = 0;
   pokemonObservable$: Observable<IPokemon[]> = new Observable();
+  orderBy: "asc" | "desc" | null = null;
+  orderByArr = ["", "asc", "desc"];
+  sortBy: SortProps | null = null;
+  sortByArr = ["", "base_experience", "name"];
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
     //load pokemon 1st page
     console.log("init");
-    this.pokemonObservable$.subscribe(function logMessage(
-      message: any
-    ) {
-      console.log("text");
-    });
+
     this.loadPokemon(this.pageOffset);
   }
 
+  // toggleSortBy(sortByEvent: SortProps | null) {
+  //   if (sortByEvent) this.sortBy = sortByEvent;
+  // }
+
+  updateSort(
+    field: SortProps | null,
+    direction: "asc" | "desc" | null
+  ) {
+    console.log("update sort");
+    console.log(field);
+    if (direction === null) {
+      this.sortBy = null;
+      this.orderBy = null;
+    } else {
+      this.sortBy = field;
+      this.orderBy = direction;
+    }
+  }
   loadPokemon(offset: number = 0) {
     this.httpClient
       .get<PokemonListResponse>(
