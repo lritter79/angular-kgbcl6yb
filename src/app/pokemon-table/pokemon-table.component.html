@@ -1,3 +1,6 @@
+{{sortBy}}
+{{orderBy}}
+{{filterName}}
 <table class="pokemon-table">
   <thead>
     <tr>
@@ -9,15 +12,18 @@
         </app-sort-arrow>
         </th>
       <th>Base Experience
-                <app-sort-arrow
+        <app-sort-arrow
             [sortState]="sortBy === 'base_experience' ? orderBy : null"
             (sortChange)="updateSort('base_experience', $event)">
         </app-sort-arrow>
+        <input type="text" placeholder="Search by name" (input)="updateFilter($event.target)"/>
+
       </th>
+
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let pokemon of pokemonObservable$ | async | orderBy:orderBy:sortBy ">
+    <tr *ngFor="let pokemon of pokemonObservable$ | async | filter: filterName | orderBy:orderBy:sortBy ">
       <td>
         <img [src]="pokemon.sprites.front_default" alt="{{ pokemon.name }}" />
       </td>

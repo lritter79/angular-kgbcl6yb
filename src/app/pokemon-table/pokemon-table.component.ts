@@ -10,6 +10,7 @@ import { AsyncPipe, NgFor } from "@angular/common";
 import { OrderByPipe } from "../order-by.pipe";
 import { FormsModule } from "@angular/forms";
 import { SortArrowComponent } from "./sort-arrow/sort-arrow.component";
+import { FilterPipe } from "../filter.pipe";
 @Component({
   selector: "pokemon-table",
   standalone: true,
@@ -19,6 +20,7 @@ import { SortArrowComponent } from "./sort-arrow/sort-arrow.component";
     OrderByPipe,
     FormsModule,
     SortArrowComponent,
+    FilterPipe,
   ],
   templateUrl: "./pokemon-table.component.html",
   styleUrl: "./pokemon-table.component.css",
@@ -30,6 +32,7 @@ export class PokemonTableComponent implements OnInit {
   orderByArr = ["", "asc", "desc"];
   sortBy: SortProps | null = null;
   sortByArr = ["", "base_experience", "name"];
+  filterName: string | null = null;
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
@@ -39,16 +42,18 @@ export class PokemonTableComponent implements OnInit {
     this.loadPokemon(this.pageOffset);
   }
 
-  // toggleSortBy(sortByEvent: SortProps | null) {
-  //   if (sortByEvent) this.sortBy = sortByEvent;
-  // }
+  updateFilter(target: EventTarget | null) {
+    if (target) {
+      const input = target as HTMLInputElement;
+      const value = input.value;
+      this.filterName = value;
+    }
+  }
 
   updateSort(
     field: SortProps | null,
     direction: "asc" | "desc" | null
   ) {
-    console.log("update sort");
-    console.log(field);
     if (direction === null) {
       this.sortBy = null;
       this.orderBy = null;
@@ -65,7 +70,6 @@ export class PokemonTableComponent implements OnInit {
       .pipe(
         // take the list of URLs and fetch each individual pokemon
         map((listResponse: PokemonListResponse) => {
-          console.log(1);
           const requests = listResponse.results.map((pokemon) =>
             this.httpClient.get<IPokemon>(pokemon.url)
           );
@@ -73,8 +77,6 @@ export class PokemonTableComponent implements OnInit {
         })
       )
       .subscribe((pokemonDetails) => {
-        console.log(pokemonDetails);
-        // do something with the full list of IPokemon
         this.pokemonObservable$ = pokemonDetails;
       });
   }

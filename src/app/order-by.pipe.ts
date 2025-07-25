@@ -11,10 +11,11 @@ export class OrderByPipe implements PipeTransform {
     order: "asc" | "desc" | null,
     property: keyof Omit<IPokemon, "sprites"> | null
   ): IPokemon[] {
+
     if (value === null) return [];
     if (property === null || order === null) return value;
 
-    return value.sort((a, b) => {
+    return [...value].sort((a, b) => {
       let compareValueA = a[property];
       let compareValueB = b[property];
       if (order === "asc") {
