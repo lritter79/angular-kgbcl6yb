@@ -6,6 +6,9 @@ import { FormsModule } from "@angular/forms";
 import { SortArrowComponent } from "./sort-arrow/sort-arrow.component";
 import { FilterPipe } from "../filter.pipe";
 import { PokemonService } from "../pokemon.service";
+import { Subject } from "rxjs";
+import { debounceTime } from "rxjs/operators";
+
 @Component({
   selector: "pokemon-table",
   standalone: true,
@@ -27,13 +30,22 @@ export class PokemonTableComponent implements OnInit {
   sortBy: SortProps | null = null;
   sortByArr = ["", "base_experience", "name"];
   filterName: string | null = null;
+
+  // Subject to emit new page offset values when the user navigates
+  private pageChange$ = new Subject<number>();
+
   constructor(private pokemonService: PokemonService) {}
 
   ngOnInit() {
-    //load pokemon 1st page
-    console.log("init");
+    // Subscribe to pageChange$ and wait 100ms after the last emission before calling loadPokemon
+    // This prevents rapid clicking from triggering too many API calls
+    this.pageChange$.pipe(debounceTime(100)).subscribe((offset) => {
+      this.pageOffset = offset;
+      this.loadPokemon();
+    });
 
-    this.loadPokemon();
+    // Trigger initial load of Pokémon data
+    this.pageChange$.next(this.pageOffset);
   }
 
   updateFilter(target: EventTarget | null) {
@@ -52,7 +64,6 @@ export class PokemonTableComponent implements OnInit {
     field: SortProps | null,
     direction: "asc" | "desc" | null
   ) {
-    console.log(field);
     if (direction === null) {
       this.sortBy = null;
       this.orderBy = null;
@@ -61,6 +72,7 @@ export class PokemonTableComponent implements OnInit {
       this.orderBy = direction;
     }
   }
+
   loadPokemon() {
     this.pokemonService.getPokemon(this.pageOffset).subscribe({
       next: (data) => {
@@ -73,16 +85,17 @@ export class PokemonTableComponent implements OnInit {
   }
 
   nextPage() {
-    this.pageOffset += 10;
+    // Reset filters and emit the new offset
+    // loadPokemon will only be called 300ms after the last pageChange$.next()
     this.resetFilters();
-    this.loadPokemon();
+    this.pageChange$.next(this.pageOffset + 10);
   }
 
   prevPage() {
     if (this.pageOffset >= 10) {
-      this.pageOffset -= 10;
+      // Same debounce behavior for going to the previous page
       this.resetFilters();
-      this.loadPokemon();
+      this.pageChange$.next(this.pageOffset - 10);
     }
   }
 }
