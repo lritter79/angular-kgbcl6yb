@@ -17,7 +17,7 @@
             [sortState]="sortBy === 'base_experience' ? orderBy : null"
             (sortChange)="updateSort('base_experience', $event)">
         </app-sort-arrow>
-        <input type="text" placeholder="Search by name" (input)="updateFilter($event.target)"/>
+        <input type="text" placeholder="Search by name" [(ngModel)]="filterName"/>
 
       </th>
 
