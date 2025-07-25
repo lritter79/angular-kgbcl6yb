@@ -1,0 +1,18 @@
+<table class="pokemon-table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Base Experience</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pokemon of pokemonObservable$ | async">
+      <td>
+        <img [src]="pokemon.sprites.front_default" alt="{{ pokemon.name }}" />
+      </td>
+      <td>{{ pokemon.name }}</td>
+      <td>{{ pokemon.base_experience }}</td>
+    </tr>
+  </tbody>
+</table>

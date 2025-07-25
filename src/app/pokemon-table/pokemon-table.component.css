@@ -1,0 +1,25 @@
+.pokemon-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
+
+.pokemon-table th,
+.pokemon-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.pokemon-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pokemon-table img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
