@@ -1,5 +1,7 @@
 # angular-kgbcl6yb
 
+[Video Walk Through](https://www.loom.com/share/1b77ce86d7ac405c968015bdd1972c3c?sid=01e0774b-14bf-4f99-a383-46ef8e9dd0f9)
+
 [Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/lritter79/angular-kgbcl6yb)
 
 Requirements:
