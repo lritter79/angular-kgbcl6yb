@@ -19,9 +19,10 @@ export class PokemonService {
       .pipe(
         // take the list of URLs and fetch each individual pokemon
         switchMap((listResponse: PokemonListResponse) => {
-          const requests = listResponse.results.map((pokemon) =>
-            this.httpClient.get<IPokemon>(pokemon.url)
-          );
+          const requests: Observable<IPokemon>[] =
+            listResponse.results.map((pokemon) =>
+              this.httpClient.get<IPokemon>(pokemon.url)
+            );
           return forkJoin(requests); // wait for all requests to complete
         })
       );

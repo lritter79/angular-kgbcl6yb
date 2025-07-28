@@ -9,7 +9,6 @@ import { PokemonService } from "../pokemon.service";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 
-
 @Component({
   selector: "pokemon-table",
   standalone: true,
@@ -59,6 +58,7 @@ export class PokemonTableComponent implements OnInit {
 
   resetFilters() {
     this.filterName = null;
+    this.updateSort(null, null);
   }
 
   updateSort(
@@ -78,6 +78,7 @@ export class PokemonTableComponent implements OnInit {
     this.pokemonService.getPokemon(this.pageOffset).subscribe({
       next: (data) => {
         this.pokemonList = data;
+        this.resetFilters(); // Reset filters when new data is loaded
       },
       error: (err) => {
         console.error("Failed to fetch pokemon:", err);
@@ -88,14 +89,12 @@ export class PokemonTableComponent implements OnInit {
   nextPage() {
     // Reset filters and emit the new offset
     // loadPokemon will only be called 200ms after the last pageChange$.next()
-    this.resetFilters();
     this.pageChange$.next(this.pageOffset + 10);
   }
 
   prevPage() {
     if (this.pageOffset >= 10) {
       // Same debounce behavior for going to the previous page
-      this.resetFilters();
       this.pageChange$.next(this.pageOffset - 10);
     }
   }
